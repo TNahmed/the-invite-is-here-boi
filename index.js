@@ -1,7 +1,13 @@
-require("http").createServer((req, res) => {
-    res.writeHead(200, { "Content-Type": "text/plain" });
-    res.end("Hello World\n");
-  }).listen(process.env.PORT, "0.0.0.0");
+const { Client, Util, MessageEmbed } = require("discord.js");
+const YouTube = require("simple-youtube-api");
+const ytdl = require("ytdl-core");
+require("dotenv").config();
+require("./server.js");
+
+const bot = new Client({
+  disableMentions: "all"
+});
+
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
@@ -10,7 +16,9 @@ const db = require('quick.db');
 const yaml = require("js-yaml");
 const { mainprefix, token, color } = yaml.load(fs.readFileSync("./config.yml"));
 client.on('ready', async () => console.log(`ready!`))
-const guildInvites = new Map();
+
+
+
 
 client.on("inviteCreate", async invite =>
   guildInvites.set(invite.guild.id, await invite.guild.fetchInvites())
@@ -79,6 +87,20 @@ const activity = [
     "By !-ᗪú , 𓆩™Âhmed™𓆪 ヅ#9999", 
 ];
 
+client.on("ready", function (){
+    console.log(`${client.user.username} !config for help`);
+    let i = 0;
+
+
+    setInterval(()=>{
+        const index = Math.floor(i);
+    client.user.setActivity(activity[index],{type:"WATCHING"});
+    i = i + 1;
+    if(i === activity.length) i = i - activity.length;
+
+    },5000)
+})
+
 
 
 client.on("guildMemberRemove", member => {
@@ -114,31 +136,6 @@ client.on("guildMemberRemove", member => {
   db.add(`leaves_${member.guild.id}_${inviter2}`, 1);
   client.channels.cache.get(leavechannel).send(leavemssage2);
 });
-
-
-	client.on('message', async message => {
-    if (message.author.bot) return;
-     let prefix = await db.get(`guildprefix_${message.guild.id}`);
-  if (prefix === null) prefix = mainprefix;
-     if (message.content === prefix + "help") {
-
- message.channel.send(`**
- ~~#~~ 1 - \`${prefix}invites\` : المعرف عدد الدعوات
- ~~#~~ 2 - \`${prefix}config joinMessageChannel\` : روم ينرسل فيها لو حد دخل
- ~~#~~ 3 - \`${prefix}config leaveMessageChannel\` : روم لو ينرسل فيها لو حد خرج
- ~~#~~ 4 - \`${prefix}config show \` : يقولك المعلومات اللي انت عاملها
- ~~#~~ 5 - \`${prefix}config reset-invites\` : نصفر دعوات عضو
- ~~#~~ 6 - \`${prefix}config resetall-invites\` : تصفر دعوات الكل
- ~~#~~ 7 - \`${prefix}config add-invites\` : يضيف دعوات لى عضو
- ~~#~~ 8 - \`${prefix}config prefix\` : تغير برفكس بوت
-**
-\`By : Me Codes\``);
- 
- 
-    }
-}) 
-
-
 client.on('message', async message => {
   let prefix = await db.get(`guildprefix_${message.guild.id}`);
   if (prefix === null) prefix = mainprefix;
@@ -378,7 +375,6 @@ client.on('message', async message => {
       }
     }
   });
-
 
 
   client.login(token)
