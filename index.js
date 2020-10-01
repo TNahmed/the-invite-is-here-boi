@@ -73,6 +73,14 @@ client.on("guildMemberAdd", async member => {
   }
 });
 
+
+const activity = [
+    "!config for help", 
+    "By !-ᗪú , 𓆩™Âhmed™𓆪 ヅ#9999", 
+];
+
+
+
 client.on("guildMemberRemove", member => {
   let leavechannel = db.get(`leavechannelmessage_${member.guild.id}`);
   if (leavechannel === null) {
