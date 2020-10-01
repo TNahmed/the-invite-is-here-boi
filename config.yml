@@ -1,4 +1,4 @@
-mainprefix: "برفكس بوت"
+mainprefix: "!"
 defaultjoinmessage: "{user} **Joined** **Invited** By {Inviter} (Invites: {inv})**"
 defaultleavemessage: "{user} **Left**, Invited by {inviter}"
 token: ""NzU3OTE5NzM5MTAzNDEyMjM1.X2nZww.hqfF6OhtCs6kEMlqPJ63Ce0kLJw""
